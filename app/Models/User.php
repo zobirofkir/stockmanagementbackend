@@ -27,6 +27,11 @@ class User extends Authenticatable
         'image',
     ];
 
+    protected $casts = [
+        'status' => 'string',
+        'image' => "string",
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

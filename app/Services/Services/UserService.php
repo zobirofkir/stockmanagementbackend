@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Constructors\UserConstructor;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
 
 class UserService implements UserConstructor
 {
@@ -35,8 +36,14 @@ class UserService implements UserConstructor
      * @return UserResource
      */
     public function store(UserRequest $request) : UserResource {
+        $validatedData = $request->validated();
+
+        if (isset($validatedData['image'])) {
+            $validatedData['image'] = $request->file('image')->store('public');
+        }
+
         return UserResource::make(
-            User::create($request->all())
+            User::create($validatedData)
         );
     }
 
@@ -45,12 +52,26 @@ class UserService implements UserConstructor
      *
      * @return UserResource
      */
-    public function update(UserRequest $request , User $user) : UserResource {
-        $user->update($request->validated());
+    public function update(UserRequest $request, User $user): UserResource
+    {
+        $validatedData = $request->validated();
 
-        return UserResource::make(
-            $user->refresh()
-        );
+        // Check if a new image is provided
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($user->image) {
+                Storage::delete($user->image);
+            }
+
+            // Store the new image and update the validated data
+            $validatedData['image'] = $request->file('image')->store('public');
+        }
+
+        // Update the user with the validated data
+        $user->update($validatedData);
+
+        // Return the updated user data
+        return UserResource::make($user->refresh());
     }
 
     /**

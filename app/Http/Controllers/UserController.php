@@ -45,9 +45,9 @@ class UserController extends Controller
      *
      * @return UserResource
      */
-    public function update(UserRequest $request, User $user) : UserResource
+    public function update(UserRequest $request, User $user): UserResource
     {
-        return UserFacade::update($request , $user);
+        return UserFacade::update($request, $user);
     }
 
     /**
