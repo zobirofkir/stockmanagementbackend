@@ -26,12 +26,18 @@ class Product extends Model
     {
         parent::boot();
 
-        static::creating(function ($product) {
-            $product->slug = str($product->title)->slug();
-        });
+        static::saving(function ($product) {
+            $slug = str($product->title)->slug();
 
-        static::updating(function ($product) {
-            $product->slug = str($product->title)->slug();
+            $originalSlug = $slug;
+            $counter = 1;
+
+            while (Product::where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+
+            $product->slug = $slug;
         });
     }
 

@@ -13,16 +13,22 @@ class Category extends Model
         'slug',
     ];
 
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($category) {
-            $category->slug = Str::slug($category->title);
-        });
+        static::saving(function ($category) {
+            $slug = str($category->title)->slug();
 
-        static::updating(function ($category) {
-            $category->slug = Str::slug($category->title);
+            $originalSlug = $slug;
+            $counter = 1;
+
+            while (Category::where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+
+            $category->slug = $slug;
         });
     }
 

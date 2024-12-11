@@ -14,6 +14,8 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $images = is_array($this->images) ? $this->images : explode(',', $this->images);
+        
         return [
             "id" => $this->id,
 
@@ -21,9 +23,7 @@ class ProductResource extends JsonResource
             "supplier" => new SupplierResource($this->supplier),
 
             "title" => $this->title,
-            "images" => [
-                asset('storage/' . $this->image),
-            ],
+            "images" => array_map(fn($image) => asset('storage/' . $image), $images),
             "description" => $this->description,
             "price" => $this->price,
             "quantity" => $this->quantity,
