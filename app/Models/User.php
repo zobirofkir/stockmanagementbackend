@@ -54,4 +54,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function generateToken() : string
+    {
+        return $this->createToken('accessToken')->accessToken;
+    }
 }

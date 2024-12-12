@@ -1,28 +1,53 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/**
- * User Management
- */
-Route::apiResource('users', UserController::class);
 
 /**
- * Category Management
+ * Login User
  */
-Route::apiResource('categories', CategoryController::class);
-
-/**
- * Supplier Management
- */
-Route::apiResource('suppliers', SupplierController::class);
+Route::post('auth/login', [AuthController::class, 'login']);
 
 
 /**
- * Product Management
+ * Authenticated Routes
  */
-Route::apiResource('products', ProductController::class);
+Route::middleware('auth:api')->group(function () {
+
+    /**
+     * User Management
+     */
+    Route::apiResource('users', UserController::class);
+
+    /**
+     * Category Management
+     */
+    Route::apiResource('categories', CategoryController::class);
+
+    /**
+     * Supplier Management
+     */
+    Route::apiResource('suppliers', SupplierController::class);
+
+
+    /**
+     * Product Management
+     */
+    Route::apiResource('products', ProductController::class);
+
+    /**
+     * Update Current Authenticated User
+     */
+    Route::post('auth/update', [AuthController::class, 'update']);
+
+    /**
+     * Logout User
+     */
+    Route::post('auth/logout', [AuthController::class, 'logout']);
+});
