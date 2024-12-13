@@ -6,11 +6,14 @@ use App\Http\Requests\SupplierRequest;
 use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
 use App\Services\Facades\SupplierFacade;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SupplierController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +31,8 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request) : SupplierResource
     {
+        $this->authorize('create', Supplier::class);
+
         return SupplierFacade::store($request);
     }
 
@@ -51,6 +56,8 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, Supplier $supplier) : SupplierResource
     {
+        $this->authorize('update', $supplier);
+
         return SupplierFacade::update($request , $supplier);
     }
 
@@ -62,6 +69,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier) : bool
     {
+        $this->authorize('delete', $supplier);
+
         return SupplierFacade::destroy($supplier);
     }
 }
