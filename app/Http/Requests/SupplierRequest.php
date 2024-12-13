@@ -23,9 +23,9 @@ class SupplierRequest extends FormRequest
     {
         return [
             "name" => "required|string|max:255|min:3",
-            "contact_name" => "required|string|max:255|min:3",
-            "contact_phone" => "required|string|max:255|min:3",
-            "contact_email" => "required|email|max:255",
+            "email" => "required|email|max:255|unique:suppliers",
+            "password" => "required|string|min:8",
+            "phone" => "required|string|max:255|min:3",
             "address" => "required|string|max:255|min:3",
         ];
     }

@@ -6,11 +6,14 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\Facades\ProductFacade;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +32,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request) : ProductResource
     {
+        $this->authorize('create', Product::class);
+
         return ProductFacade::store($request);
     }
 
@@ -52,6 +57,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product) : ProductResource
     {
+        $this->authorize('update', $product);
         return ProductFacade::update($request, $product);
     }
 
@@ -63,6 +69,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product) : bool
     {
+        $this->authorize('delete', $product);
         return ProductFacade::destroy($product);
     }
 }
