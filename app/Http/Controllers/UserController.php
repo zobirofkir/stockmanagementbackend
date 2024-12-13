@@ -6,10 +6,13 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Facades\UserFacade;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +30,8 @@ class UserController extends Controller
      */
     public function store(UserRequest $request) : UserResource
     {
+        $this->authorize('create', User::class);
+
         return UserFacade::store($request);
     }
 
@@ -47,6 +52,8 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user): UserResource
     {
+        $this->authorize('update', $user);
+
         return UserFacade::update($request, $user);
     }
 
@@ -57,6 +64,8 @@ class UserController extends Controller
      */
     public function destroy(User $user) : bool
     {
+        $this->authorize('delete', $user);
+        
         return UserFacade::destroy($user);
     }
 }
