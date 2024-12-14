@@ -68,8 +68,10 @@ class AuthService implements AuthConstructor
 
         $validatedData = $request->validated();
 
-        if (isset($validatedData['image'])) {
+        if ($request->hasFile('image')) {
             $validatedData['image'] = $request->file('image')->store('public');
+        } elseif (!isset($validatedData['image'])) {
+            $validatedData['image'] = asset("assets/images/default-image-path.jpg");
         }
 
         if (isset($validatedData['password'])) {

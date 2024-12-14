@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'status' => 'string',
-        'image' => "string",
+        'image' => 'string',
     ];
 
     /**

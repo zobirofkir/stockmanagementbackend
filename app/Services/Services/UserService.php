@@ -17,7 +17,7 @@ class UserService implements UserConstructor
      */
     public function index() : AnonymousResourceCollection {
         return UserResource::collection(
-            User::paginate(10)
+            User::orderBy('created_at', 'desc')->get()
         );
     }
 
@@ -38,8 +38,10 @@ class UserService implements UserConstructor
     public function store(UserRequest $request) : UserResource {
         $validatedData = $request->validated();
 
-        if (isset($validatedData['image'])) {
+        if ($request->hasFile('image')) {
             $validatedData['image'] = $request->file('image')->store('public');
+        } elseif (!isset($validatedData['image'])) {
+            $validatedData['image'] = asset("assets/images/default-image-path.jpg");
         }
 
         return UserResource::make(

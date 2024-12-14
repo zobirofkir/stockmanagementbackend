@@ -23,16 +23,16 @@ class PutAutUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string|max:255|min:3",
+            "name" => "nullable|string|max:255|min:3",
             "email" => [
-                "required",
+                "nullable",
                 "string",
                 "email",
                 "max:255",
                 Rule::unique('users')->ignore($this->user()->id),
             ],
             "password" => "nullable|string|min:8",
-            "image" => "nullable|image|mimes:jpeg,jpg,png,gif|max:2048",
+            'image' => 'nullable',
         ];
     }
 }

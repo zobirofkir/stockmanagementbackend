@@ -42,16 +42,14 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('products', ProductController::class);
 
     /**
-     * Update Current Authenticated User
-     */
-    Route::post('auth/update', [AuthController::class, 'update']);
-
-
-    /**
      * Current Authenticated User
      */
     Route::get('auth/current', [AuthController::class, 'current']);
 
+    /**
+     * Update Current Authenticated User
+     */
+    Route::put('auth/update', [AuthController::class, 'update']);
 
     /**
      * Logout User
