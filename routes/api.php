@@ -46,6 +46,13 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::post('auth/update', [AuthController::class, 'update']);
 
+
+    /**
+     * Current Authenticated User
+     */
+    Route::get('auth/current', [AuthController::class, 'current']);
+
+
     /**
      * Logout User
      */

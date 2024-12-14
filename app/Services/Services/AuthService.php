@@ -40,6 +40,19 @@ class AuthService implements AuthConstructor
     }
 
     /**
+     * Current Authenticated User
+     *
+     * @param User $user
+     * @return AuthResource
+     */
+    public function current(User $user) : AuthResource
+    {
+       return AuthResource::make(
+        $this->currentAuthenticatedUser(Auth::id())
+       );
+    }
+
+    /**
      * Update Current Authenticated User
      *
      * @param PutAutUserRequest $request

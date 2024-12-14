@@ -7,6 +7,7 @@ use App\Http\Requests\PutAutUserRequest;
 use App\Http\Resources\AuthResource;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\PutAutUserResource;
+use App\Models\User;
 use App\Services\Facades\AuthFacade;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,17 @@ class AuthController extends Controller
     public function login(AuthRequest $request) : AuthResource
     {
         return AuthFacade::login($request);
+    }
+
+    /**
+     * Current Authenticated User
+     *
+     * @param User $user
+     * @return AuthResource
+     */
+    public function current(User $user) : AuthResource
+    {
+        return AuthFacade::current($user);
     }
 
     /**
