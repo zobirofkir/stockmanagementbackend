@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Constructors\UserConstructor;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserService implements UserConstructor
@@ -15,9 +16,11 @@ class UserService implements UserConstructor
      *
      * @return AnonymousResourceCollection
      */
-    public function index() : AnonymousResourceCollection {
+    public function index(): AnonymousResourceCollection {
         return UserResource::collection(
-            User::orderBy('created_at', 'desc')->get()
+            User::where('id', '!=', Auth::id())
+                ->orderBy('created_at', 'desc')
+                ->get()
         );
     }
 
