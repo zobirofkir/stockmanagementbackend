@@ -17,7 +17,7 @@ class SupplierService implements SupplierConstructor
     public function index(): AnonymousResourceCollection
     {
         return SupplierResource::collection(
-            Supplier::paginate(10)
+            Supplier::orderBy('created_at', 'desc')->get()
         );
     }
 
