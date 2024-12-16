@@ -12,7 +12,7 @@ class CategoryService implements CategoryConstructor
     public function index() : AnonymousResourceCollection
     {
         return CategoryResource::collection(
-            Category::orderBy('created_at', 'desc')
+            Category::orderBy('created_at', 'desc')->get()
         );
     }
 
