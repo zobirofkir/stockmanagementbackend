@@ -12,7 +12,7 @@ class CategoryService implements CategoryConstructor
     public function index() : AnonymousResourceCollection
     {
         return CategoryResource::collection(
-            Category::paginate(10)
+            Category::all()
         );
     }
 
