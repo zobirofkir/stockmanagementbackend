@@ -17,7 +17,7 @@ class ProductService implements ProductConstructor
     public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(
-            Product::paginate(10)
+            Product::latest()->get()
         );
     }
 

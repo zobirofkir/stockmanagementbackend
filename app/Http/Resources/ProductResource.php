@@ -15,13 +15,13 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $images = is_array($this->images) ? $this->images : explode(',', $this->images);
-        
+
+        $images = array_filter($images, fn($image) => !empty($image));
+
         return [
             "id" => $this->id,
-
             "category" => new CategoryResource($this->category),
             "supplier" => new SupplierResource($this->supplier),
-
             "title" => $this->title,
             "images" => array_map(fn($image) => asset('storage/' . $image), $images),
             "description" => $this->description,
