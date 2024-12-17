@@ -18,7 +18,7 @@ class PutAutUserResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "email" => $this->email,
-            "image" => $this->image,
+            "image" => asset('storage/' . $this->image),
         ];
     }
 }
