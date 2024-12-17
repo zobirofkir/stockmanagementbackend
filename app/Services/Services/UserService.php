@@ -42,15 +42,17 @@ class UserService implements UserConstructor
         $validatedData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $validatedData['image'] = $request->file('image')->store('public');
-        } elseif (!isset($validatedData['image'])) {
+            $path = $request->file('image')->store('profile_images', 'public');
+            $validatedData['image'] = $path;
+        } else {
             $validatedData['image'] = asset("assets/images/default-image-path.jpg");
         }
 
-        return UserResource::make(
-            User::create($validatedData)
-        );
+        $user = User::create($validatedData);
+
+        return UserResource::make($user);
     }
+
 
     /**
      * Update a user
@@ -61,21 +63,16 @@ class UserService implements UserConstructor
     {
         $validatedData = $request->validated();
 
-        // Check if a new image is provided
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
             if ($user->image) {
                 Storage::delete($user->image);
             }
 
-            // Store the new image and update the validated data
-            $validatedData['image'] = $request->file('image')->store('public');
+            $validatedData['image'] = $request->file('image')->store('profile_images', 'public');
         }
 
-        // Update the user with the validated data
         $user->update($validatedData);
 
-        // Return the updated user data
         return UserResource::make($user->refresh());
     }
 
@@ -84,7 +81,12 @@ class UserService implements UserConstructor
      *
      * @return bool
      */
-    public function destroy(User $user) : bool {
+    public function destroy(User $user) : bool
+    {
+        if ($user->image) {
+            Storage::delete($user->image);
+        }
+
         return $user->delete();
     }
 }

@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             "password" => "required|string|min:8",
             "role" => "required|string|in:admin,user,supplier",
             "status" => "nullable|string|in:active,inactive",
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            "image" => "nullable",
         ];
     }
 
