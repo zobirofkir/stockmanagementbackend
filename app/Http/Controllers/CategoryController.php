@@ -6,11 +6,15 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\Facades\CategoryFacade;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
 {
+
+    use  AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +32,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request) : CategoryResource
     {
+        $this->authorize('create', Category::class);
+
         return CategoryFacade::store($request);
     }
 
@@ -48,6 +54,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request , Category $category) : CategoryResource
     {
+        $this->authorize('update', $category);
+
         return CategoryFacade::update($request , $category);
     }
 
@@ -58,6 +66,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category) : bool
     {
+        $this->authorize('delete', $category);
+        
         return CategoryFacade::destroy($category);
     }
 }
