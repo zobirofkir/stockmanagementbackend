@@ -16,7 +16,7 @@ class SupplierPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(RolesEnum::ADMIN->value);
+        return $user->hasRole(RolesEnum::ADMIN->value) || $user->hasRole(RolesEnum::SUPPLIER->value);
     }
 
     /**
@@ -24,7 +24,7 @@ class SupplierPolicy
      */
     public function update(User $user, Supplier $supplier): bool
     {
-        return $user->hasRole(RolesEnum::ADMIN->value);
+        return $user->hasRole(RolesEnum::ADMIN->value) || $user->hasRole(RolesEnum::SUPPLIER->value);
     }
 
     /**
@@ -32,6 +32,6 @@ class SupplierPolicy
      */
     public function delete(User $user, Supplier $supplier): bool
     {
-        return $user->hasRole(RolesEnum::ADMIN->value);
+        return $user->hasRole(RolesEnum::ADMIN->value) || $user->hasRole(RolesEnum::SUPPLIER->value);
     }
 }

@@ -24,8 +24,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        return $user->hasPermissionTo(RolesEnum::ADMIN->value) ||
-               ($user->hasPermissionTo(RolesEnum::SUPPLIER->value) && $user->id === $product->supplier_id);
+        return $user->hasPermissionTo(RolesEnum::ADMIN->value) || $user->hasPermissionTo(RolesEnum::SUPPLIER->value);
     }
 
     /**
@@ -33,7 +32,6 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product): bool
     {
-        return $user->hasPermissionTo(RolesEnum::ADMIN->value) ||
-               ($user->hasPermissionTo(RolesEnum::SUPPLIER->value) && $user->id === $product->supplier_id);
+        return $user->hasPermissionTo(RolesEnum::ADMIN->value) || $user->hasPermissionTo(RolesEnum::SUPPLIER->value);
     }
 }
