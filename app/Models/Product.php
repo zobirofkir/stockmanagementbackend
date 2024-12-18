@@ -22,25 +22,6 @@ class Product extends Model
         'images' => 'array',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($product) {
-            $slug = str($product->title)->slug();
-
-            $originalSlug = $slug;
-            $counter = 1;
-
-            while (Product::where('slug', $slug)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
-                $counter++;
-            }
-
-            $product->slug = $slug;
-        });
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
