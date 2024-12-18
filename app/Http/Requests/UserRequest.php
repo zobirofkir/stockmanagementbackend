@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\enums\RolesEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -25,7 +26,7 @@ class UserRequest extends FormRequest
             "name" => "required|string|max:255|min:3",
             "email" => "nullable|string|email|max:255|unique:users,email,",
             "password" => "required|string|min:8",
-            "role" => "required|string|in:admin,user,supplier",
+            "role" => "required|in:" . implode(",", array_map(fn($role) => $role->value, RolesEnum::cases())),
             "status" => "nullable|string|in:active,inactive",
             "image" => "nullable",
         ];

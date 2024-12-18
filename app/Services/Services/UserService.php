@@ -41,6 +41,8 @@ class UserService implements UserConstructor
     public function store(UserRequest $request) : UserResource {
         $validatedData = $request->validated();
 
+        $role = $validatedData['role'];
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('profile_images', 'public');
             $validatedData['image'] = $path;
@@ -49,6 +51,8 @@ class UserService implements UserConstructor
         }
 
         $user = User::create($validatedData);
+
+        $user->assignRole($role);
 
         return UserResource::make($user);
     }
