@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,11 @@ Route::middleware('auth:api')->group(function () {
      * Product Management
      */
     Route::apiResource('products', ProductController::class);
+
+    /**
+     * Stock Management
+     */
+    Route::apiResource('stocks', StockController::class);
 
     /**
      * Current Authenticated User
