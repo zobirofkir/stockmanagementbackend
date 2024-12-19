@@ -45,5 +45,5 @@ interface CategoryConstructor {
      * @param Category $category
      * @return boolean
      */
-    public function destroy(Category $category) : bool;
+    public function destroy(Category $category) : CategoryResource;
 }

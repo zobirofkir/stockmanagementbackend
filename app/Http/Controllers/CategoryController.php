@@ -62,12 +62,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return boolean
+     * @return CategoryResource
      */
-    public function destroy(Category $category) : bool
+    public function destroy(Category $category) : CategoryResource
     {
         $this->authorize('delete', $category);
-        
+
         return CategoryFacade::destroy($category);
     }
 }

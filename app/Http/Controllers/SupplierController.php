@@ -67,7 +67,7 @@ class SupplierController extends Controller
      * @param Supplier $supplier
      * @return boolean
      */
-    public function destroy(Supplier $supplier) : bool
+    public function destroy(Supplier $supplier) : SupplierResource
     {
         $this->authorize('delete', $supplier);
 

@@ -39,8 +39,10 @@ class CategoryService implements CategoryConstructor
         );
     }
 
-    public function destroy(Category $category) : bool
+    public function destroy(Category $category) : CategoryResource
     {
-        return $category->delete();
+        $category->delete();
+
+        return CategoryResource::make($category);
     }
 }

@@ -46,5 +46,5 @@ interface SupplierConstructor
      * @param Supplier $supplier
      * @return boolean
      */
-    public function destroy(Supplier $supplier) : bool;
+    public function destroy(Supplier $supplier) : SupplierResource;
 }

@@ -65,10 +65,11 @@ class SupplierService implements SupplierConstructor
      * Remove the specified resource from storage.
      *
      * @param Supplier $supplier
-     * @return boolean
+     * @return SupplierResource
      */
-    public function destroy(Supplier $supplier): bool
+    public function destroy(Supplier $supplier): SupplierResource
     {
-        return $supplier->delete();
+        $supplier->delete();
+        return SupplierResource::make($supplier);
     }
 }
